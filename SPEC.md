@@ -4,7 +4,8 @@ Status: Draft
 Package name: `boring-agent-framework`  
 Version target: experimental `0.0.x`  
 Runtime target: browser-compatible TypeScript  
-Primary foundation: Vercel AI SDK
+Primary foundation: Vercel AI SDK  
+Effect stance: compatible by design, not a core dependency
 
 ## 1. Purpose
 
@@ -1263,7 +1264,105 @@ Use JSON-compatible types for built-in entries and metadata.
 
 For custom entries, document that serialization is only guaranteed if payloads are JSON-compatible.
 
-## 25. Project structure
+## 25. Effect integration
+
+BAF core should remain plain TypeScript, but it should be designed to map cleanly to Effect.
+
+Effect is a strong fit for advanced BAF usage because it provides:
+
+- typed errors;
+- typed dependencies;
+- structured concurrency;
+- retries;
+- scheduling;
+- resource management;
+- streams;
+- observability.
+
+These are exactly the kinds of deterministic software structures that should surround adaptive model calls.
+
+However, Effect should not be a hard dependency of the core package.
+
+BAF should be usable by developers who want simple Promise-based routines and by developers who want full Effect-powered control.
+
+The initial core should not require Effect. Instead, BAF should expose optional Effect integration either through a subpath export or a companion package.
+
+Possible package shapes:
+
+```txt
+boring-agent-framework
+boring-agent-framework/effect
+```
+
+or:
+
+```txt
+boring-agent-framework
+@boring-agent-framework/effect
+```
+
+Possible Effect routine shape:
+
+```ts
+type EffectRoutine<
+  TInput,
+  TOutput,
+  TError = never,
+  TRequirements = never,
+  TContext extends RoutineContext = RoutineContext,
+> = (
+  input: TInput,
+  context: TContext,
+) => Effect.Effect<
+  RoutineRunResult<TOutput, TContext>,
+  TError,
+  TRequirements
+>
+```
+
+Possible adapters:
+
+```ts
+fromPromiseRoutine(routine)
+toPromiseRoutine(effectRoutine, runtime)
+runEffectRoutine(effectRoutine, input, context)
+```
+
+Possible Effect services later:
+
+- model service;
+- tool registry;
+- token counter;
+- logger;
+- tracer;
+- clock;
+- ID generator;
+- worker/subroutine launcher;
+- sandbox or VM runner;
+- session store, if persistence is added later.
+
+Effect should influence core design even if it is optional.
+
+This means BAF core should prefer:
+
+- immutable data;
+- function-first APIs;
+- explicit context values;
+- serializable errors;
+- tagged error shapes where practical;
+- stream/event values instead of hidden callbacks;
+- no required classes;
+- no hidden global dependencies.
+
+Possible framing:
+
+> Start with routines. Scale to Effect.
+
+Or:
+
+> Plain TypeScript at the edge, Effect when you need control.
+
+## 26. Project structure
 
 Suggested initial repository layout:
 
@@ -1300,7 +1399,7 @@ baf/
 
 If Vite+ conventions suggest a different test/build layout, follow Vite+ where practical.
 
-## 26. Vite+ bootstrap
+## 27. Vite+ bootstrap
 
 BAF should be bootstrapped with Vite+.
 
@@ -1326,7 +1425,7 @@ vp build
 
 No implementation should assume a non-browser runtime.
 
-## 27. Testing strategy
+## 28. Testing strategy
 
 BAF should be easy to test because its core is mostly data transformations.
 
@@ -1380,7 +1479,7 @@ Initial tests should cover:
 - return output/context explicitly;
 - avoid hidden mutation.
 
-## 28. Documentation style
+## 29. Documentation style
 
 Documentation should repeatedly emphasize:
 
@@ -1415,75 +1514,75 @@ Possible tagline:
 Own the loop.
 ```
 
-## 29. Open questions
+## 30. Open questions
 
-### 29.1 Streaming
+### 30.1 Streaming
 
 What exact representation should streaming assistant messages use?
 
 Initial direction: support both streaming and non-streaming messages, likely with a stream entry that can be updated immutably and finalized.
 
-### 29.2 Tool calls
+### 30.2 Tool calls
 
 Tool calls should have their own entries.
 
 Open detail: how closely should these entries mirror Vercel AI SDK stream/tool part shapes?
 
-### 29.3 Direct Vercel AI SDK dependency
+### 30.3 Direct Vercel AI SDK dependency
 
 Should BAF directly depend on Vercel AI SDK types?
 
 Initial recommendation: yes for `0.0.x`, but avoid over-wrapping the SDK.
 
-### 29.4 Rewrite model
+### 30.4 Rewrite model
 
 Should rewriters use explicit coverage, return a derived session, return a derived full model context, or support multiple modes?
 
 Current leaning: explore immutable `Session -> Session` or `ModelContext -> ModelContext` rewriters.
 
-### 29.5 Overlapping rewrites
+### 30.5 Overlapping rewrites
 
 If explicit rewrite coverage exists, latest rewrite wins.
 
 If rewriters return derived sessions, overlapping rewrite behavior may be user-defined composition.
 
-### 29.6 Immutability ergonomics
+### 30.6 Immutability ergonomics
 
 Should the first version include a mutable adapter/builder?
 
 Initial recommendation: immutable core plus a small `SessionBuilder`/`SessionDraft` convenience.
 
-### 29.7 Token counting implementation
+### 30.7 Token counting implementation
 
 Should BAF include a tokenizer, or only store/report token usage supplied by callers/providers?
 
 Initial recommendation: do not include tokenizer logic initially. Store and aggregate token usage. Add tokenizer adapters later if useful.
 
-### 29.8 Session IDs and entry IDs
+### 30.8 Session IDs and entry IDs
 
 Should BAF generate IDs, require user-provided IDs, or both?
 
 Initial recommendation: helper constructors generate IDs, but all constructors accept explicit IDs.
 
-### 29.9 Error representation
+### 30.9 Error representation
 
 Should BAF provide a standard serialized error shape for tool errors and model errors?
 
 Initial recommendation: yes, because sessions should be serializable.
 
-### 29.10 System/developer messages
+### 30.10 System/developer messages
 
 System/developer messages should be outside the session, but rewriters should be able to rewrite them.
 
 This may require a `ModelContext` abstraction.
 
-### 29.11 Routine abstraction
+### 30.11 Routine abstraction
 
 Should BAF provide only a functional `Routine` type, or also a class-based wrapper for users who prefer classes?
 
 Initial recommendation: start with the functional `Routine` type. Add a thin optional class only if it proves useful.
 
-## 30. MVP scope
+## 31. MVP scope
 
 The initial `0.0.x` MVP should include:
 
@@ -1505,7 +1604,8 @@ The initial `0.0.x` MVP should include:
 - `Rewriter` interface;
 - functional `Routine` type;
 - no `AbstractAgent` in the initial MVP unless a concrete need appears;
-- Vercel AI SDK adapter for model messages.
+- Vercel AI SDK adapter for model messages;
+- Effect-compatible core design, without requiring Effect as a dependency.
 
 ### Examples
 
@@ -1521,7 +1621,7 @@ The initial `0.0.x` MVP should include:
 - streaming entries;
 - model message conversion.
 
-## 31. Design principles
+## 32. Design principles
 
 BAF should remain:
 
@@ -1530,6 +1630,7 @@ BAF should remain:
 - boring;
 - browser-compatible;
 - TypeScript-first;
+- Effect-compatible without being Effect-required;
 - serializable;
 - inspectable;
 - testable;
