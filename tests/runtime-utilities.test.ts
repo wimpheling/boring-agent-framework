@@ -1,7 +1,7 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { defaultIdGenerator } from "../src";
-import { serializeError } from "../src/types";
-import { cloneValue, deepFreeze } from "../src/utils/clone";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
+import { defaultIdGenerator } from "../src/index.ts";
+import { serializeError } from "../src/types.ts";
+import { cloneValue, deepFreeze } from "../src/utils/clone.ts";
 
 describe("runtime utilities", () => {
   const originalStructuredClone = globalThis.structuredClone;

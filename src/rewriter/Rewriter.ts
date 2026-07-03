@@ -1,7 +1,7 @@
-import type { JsonObject, MaybePromise } from "../types";
-import { rewriteEntry, type RewriteCoverage, type RewriteEntry } from "../session/entries";
-import { Session } from "../session/Session";
-import type { TokenUsage } from "../session/tokenUsage";
+import type { JsonObject, MaybePromise } from "../types.js";
+import { rewriteEntry, type RewriteCoverage, type RewriteEntry } from "../session/entries.js";
+import { Session } from "../session/Session.js";
+import type { TokenUsage } from "../session/tokenUsage.js";
 
 export type ModelContext<TSession extends Session = Session> = {
   readonly session: TSession;

@@ -1,8 +1,14 @@
-export type { JsonObject, JsonPrimitive, JsonValue, MaybePromise, SerializedError } from "./types";
-export { serializeError } from "./types";
+export type {
+  JsonObject,
+  JsonPrimitive,
+  JsonValue,
+  MaybePromise,
+  SerializedError,
+} from "./types.js";
+export { serializeError } from "./types.js";
 
-export type { IdGenerator } from "./utils/id";
-export { defaultIdGenerator } from "./utils/id";
+export type { IdGenerator } from "./utils/id.js";
+export { defaultIdGenerator } from "./utils/id.js";
 
 export type {
   AssistantEntry,
@@ -22,7 +28,7 @@ export type {
   ToolResultPayload,
   UserEntry,
   UserPayload,
-} from "./session/entries";
+} from "./session/entries.js";
 export {
   appendAssistantStreamChunk,
   assistantEntry,
@@ -35,19 +41,19 @@ export {
   toolCallEntry,
   toolResultEntry,
   userEntry,
-} from "./session/entries";
+} from "./session/entries.js";
 
-export type { SerializedSession, SessionVersion } from "./session/serialize";
+export type { SerializedSession, SessionVersion } from "./session/serialize.js";
 export {
   resolveRewriteEntries,
   Session,
   SessionBuilder,
   type BuildSession,
   type SessionOptions,
-} from "./session/Session";
+} from "./session/Session.js";
 
-export type { SessionTokenSummary, TokenUsage } from "./session/tokenUsage";
-export { addTokenUsage, normalizeTokenUsage, sumEntryTokenUsage } from "./session/tokenUsage";
+export type { SessionTokenSummary, TokenUsage } from "./session/tokenUsage.js";
+export { addTokenUsage, normalizeTokenUsage, sumEntryTokenUsage } from "./session/tokenUsage.js";
 
 export type {
   ApplyRewriterResult,
@@ -56,15 +62,15 @@ export type {
   RewriteOutput,
   RewriteTraceOptions,
   Rewriter,
-} from "./rewriter/Rewriter";
-export { applyRewriter, runRewriter } from "./rewriter/Rewriter";
+} from "./rewriter/Rewriter.js";
+export { applyRewriter, runRewriter } from "./rewriter/Rewriter.js";
 
-export type { Instructions, Routine, RoutineContext, RoutineRunResult } from "./routine/Routine";
+export type { Instructions, Routine, RoutineContext, RoutineRunResult } from "./routine/Routine.js";
 
 export type {
   ModelMessage,
   ModelToolCall,
   ModelToolResult,
   ToModelMessagesOptions,
-} from "./adapters/vercel/toModelMessages";
-export { toModelMessages } from "./adapters/vercel/toModelMessages";
+} from "./adapters/vercel/toModelMessages.js";
+export { toModelMessages } from "./adapters/vercel/toModelMessages.js";

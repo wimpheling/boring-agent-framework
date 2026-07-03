@@ -1,14 +1,14 @@
-import type { JsonObject } from "../types";
-import { cloneValue, deepFreeze } from "../utils/clone";
-import { defaultIdGenerator, type IdGenerator } from "../utils/id";
-import { isRewriteEntry, type SessionEntry } from "./entries";
-import type { SerializedSession } from "./serialize";
+import type { JsonObject } from "../types.js";
+import { cloneValue, deepFreeze } from "../utils/clone.js";
+import { defaultIdGenerator, type IdGenerator } from "../utils/id.js";
+import { isRewriteEntry, type SessionEntry } from "./entries.js";
+import type { SerializedSession } from "./serialize.js";
 import {
   addTokenUsage,
   sumEntryTokenUsage,
   type SessionTokenSummary,
   type TokenUsage,
-} from "./tokenUsage";
+} from "./tokenUsage.js";
 
 export type SessionOptions = {
   readonly id?: string;

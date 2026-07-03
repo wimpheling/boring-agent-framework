@@ -1,23 +1,17 @@
-import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
+import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-  build: {
-    lib: {
-      entry: "src/index.ts",
-      formats: ["es"],
-      fileName: "index",
+  pack: {
+    dts: {
+      tsgo: true,
     },
-    sourcemap: true,
-    rollupOptions: {
-      external: [],
+    exports: true,
+  },
+  lint: {
+    options: {
+      typeAware: true,
+      typeCheck: true,
     },
   },
-  plugins: [
-    dts({
-      entryRoot: "src",
-      insertTypesEntry: true,
-      tsconfigPath: "tsconfig.build.json",
-    }),
-  ],
+  fmt: {},
 });

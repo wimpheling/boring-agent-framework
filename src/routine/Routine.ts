@@ -1,5 +1,5 @@
-import type { JsonObject, MaybePromise } from "../types";
-import type { Session } from "../session/Session";
+import type { JsonObject, MaybePromise } from "../types.js";
+import type { Session } from "../session/Session.js";
 
 export type Instructions = {
   readonly system?: string;

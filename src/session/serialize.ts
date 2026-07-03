@@ -1,6 +1,6 @@
-import type { JsonObject } from "../types";
-import type { SessionEntry } from "./entries";
-import type { TokenUsage } from "./tokenUsage";
+import type { JsonObject } from "../types.js";
+import type { SessionEntry } from "./entries.js";
+import type { TokenUsage } from "./tokenUsage.js";
 
 export type SessionVersion = "0.0";
 

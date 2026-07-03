@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { Session, addTokenUsage, assistantEntry, rewriteEntry, userEntry } from "../src";
+import { describe, expect, it } from "vite-plus/test";
+import { Session, addTokenUsage, assistantEntry, rewriteEntry, userEntry } from "../src/index.ts";
 
 const createdAt = "2026-01-01T00:00:00.000Z";
 

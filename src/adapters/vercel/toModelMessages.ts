@@ -6,8 +6,8 @@ import {
   type ToolCallEntry,
   type ToolResultEntry,
   type UserEntry,
-} from "../../session/entries";
-import { resolveRewriteEntries, type Session } from "../../session/Session";
+} from "../../session/entries.js";
+import { resolveRewriteEntries, type Session } from "../../session/Session.js";
 
 export type ModelToolCall = {
   readonly type: "tool-call";

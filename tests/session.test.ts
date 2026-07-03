@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import {
   Session,
   SessionBuilder,
@@ -6,7 +6,7 @@ import {
   createEntry,
   userEntry,
   type SessionEntry,
-} from "../src";
+} from "../src/index.ts";
 
 const fixed = {
   id: "entry",

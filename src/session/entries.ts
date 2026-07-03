@@ -1,9 +1,9 @@
-import type { JsonObject } from "../types";
-import { serializeError, type SerializedError } from "../types";
-import { cloneValue, deepFreeze } from "../utils/clone";
-import { defaultIdGenerator, isoNow, type IdGenerator } from "../utils/id";
-import type { SerializedSession } from "./serialize";
-import type { TokenUsage } from "./tokenUsage";
+import type { JsonObject } from "../types.js";
+import { serializeError, type SerializedError } from "../types.js";
+import { cloneValue, deepFreeze } from "../utils/clone.js";
+import { defaultIdGenerator, isoNow, type IdGenerator } from "../utils/id.js";
+import type { SerializedSession } from "./serialize.js";
+import type { TokenUsage } from "./tokenUsage.js";
 
 export type SessionEntry<Kind extends string = string, Payload = unknown> = {
   readonly id: string;

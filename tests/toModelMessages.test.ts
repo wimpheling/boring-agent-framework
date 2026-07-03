@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import {
   Session,
   assistantEntry,
@@ -7,7 +7,7 @@ import {
   toolCallEntry,
   toolResultEntry,
   userEntry,
-} from "../src";
+} from "../src/index.ts";
 
 const createdAt = "2026-01-01T00:00:00.000Z";
 

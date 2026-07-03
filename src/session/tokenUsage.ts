@@ -1,11 +1,11 @@
-import type { JsonObject } from "../types";
-import type { SessionEntry } from "./entries";
+import type { JsonObject } from "../types.js";
+import type { SessionEntry } from "./entries.js";
 
 export type TokenUsage = {
   readonly input?: number;
   readonly output?: number;
   readonly total?: number;
-  readonly source?: "exact" | "estimated" | "provider-reported" | "mixed" | string;
+  readonly source?: "exact" | "estimated" | "provider-reported" | "mixed" | (string & {});
   readonly model?: string;
   readonly metadata?: JsonObject;
 };
